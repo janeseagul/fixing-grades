@@ -11,6 +11,18 @@ from datacenter.models import (
     Commendation,
 )
 
+COMMENDATIONS = [
+    'Хорошо себя показал!',
+    'Отлично справился с контрольной!',
+    'Талантливо!',
+    'Хорошо!',
+    'Великолепно!',
+    'Активно отвечал на уроке!',
+    'Талантливо!',
+    'Отлично!',
+     'Здорово!'
+]
+
 def get_schoolkid(child: str):
     try:
         schoolkid = Schoolkid.objects.get(full_name__contains=child)
@@ -34,7 +46,7 @@ def remove_chastisements(schoolkid: Schoolkid):
 
 def get_lessons(title: str, year: str, letter: str):
     try:
-        lesson = Lesson.objects.filter(
+        lessons = Lesson.objects.filter(
             group_letter=letter,
             year_of_study=year,
             subject=title).order_by('date')
@@ -46,24 +58,14 @@ def get_lessons(title: str, year: str, letter: str):
 def create_commendation(schoolkid: Schoolkid, lesson_title: str):
     year_of_study = schoolkid.year_of_study
     group_letter = schoolkid.group_letter
-    commendations = [
-        'Хорошо себя показал!',
-        'Отлично справился с контрольной!',
-        'Талантливо!',
-        'Хорошо!',
-        'Великолепно!',
-        'Активно отвечал на уроке!',
-        'Талантливо!',
-        'Отлично!',
-        'Здорово!'
-    ]
+
     try:
         subject = Subject.objects.get(title=lesson_title, year_of_study=year_of_study)
         lesson = random.choice(get_lessons(subject, year_of_study, group_letter))
         Commendation.objects.create(
             schoolkid=schoolkid,
             subject=lesson.subject,
-            text=random.choice(commendations),
+            text=random.choice(COMMENDATIONS),
             created=lesson.date,
             teacher=lesson.teacher)
     except Subject.DoesNotExist:
