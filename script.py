@@ -50,7 +50,7 @@ def get_lessons(title: str, year: str, letter: str):
             group_letter=letter,
             year_of_study=year,
             subject=title).order_by('date')
-        return lesson
+        return lessons
     except Lesson.ObjectDoesNotExist:
         print(f'Предмет {title} не найден.')
 
