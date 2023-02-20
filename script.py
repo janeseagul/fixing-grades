@@ -49,9 +49,9 @@ def get_lessons(title: str, year: str, letter: str):
         lessons = Lesson.objects.filter(
             group_letter=letter,
             year_of_study=year,
-            subject=title).order_by('date')
-        return lesson
-    except Lesson.ObjectDoesNotExist:
+            subject=title).order_by('date').exist()
+        return lessons
+    except:
         print(f'Предмет {title} не найден.')
 
 
@@ -70,3 +70,6 @@ def create_commendation(schoolkid: Schoolkid, lesson_title: str):
             teacher=lesson.teacher)
     except Subject.DoesNotExist:
         print(f"Предмет {lesson_title} не найден.")
+    else:
+        print ("Создана похвала от учителя")
+
