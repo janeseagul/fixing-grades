@@ -1,4 +1,5 @@
 import django
+import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 django.setup()
@@ -49,9 +50,9 @@ def get_lessons(title: str, year: str, letter: str):
         lessons = Lesson.objects.filter(
             group_letter=letter,
             year_of_study=year,
-            subject=title).order_by('date').exist()
+            subject=title).order_by('date')
         return lessons
-    except:
+    except not lessons:
         print(f'Предмет {title} не найден.')
 
 
