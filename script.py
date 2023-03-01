@@ -52,13 +52,13 @@ def remove_chastisements(schoolkid: Schoolkid):
 def create_commendation(name, lesson_name):
     child = get_schoolkid(name)
 
-    lessons = Lesson.objects.filter(
+    lesson = Lesson.objects.filter(
         year_of_study=child.year_of_study,
         group_letter=child.group_letter,
         subject__title=lesson_name
     ).order_by('-date').first()
 
-    if not lessons:
+    if not lesson:
         print('Невозможно найти такой предмет')
         return
     Commendation.objects.create(text=COMMENDATIONS, created=lessons.date, schoolkid=child,
